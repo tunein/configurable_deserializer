@@ -8,7 +8,7 @@ To learn how to use the "custom deserializer" feature see [Conduktor documentati
 
 ## Simple example 
 
-`io.example.conduktor.custom.deserializers.MyCustomDeserializer`
+`tunein.kafka.messages.MyCustomDeserializer`
 
 [visible here](./src/main/scala/io/example/conduktor/custom/deserializers/MyCustomDeserializer.scala)
 
@@ -42,7 +42,7 @@ This simple example is here to demonstrate 2 things:
 To see simple example around constants, jump [here](./doc/details.md)
 
 ## Protobuf example
-`io.example.conduktor.custom.deserializers.MyCustomProtobufDeserializer`
+`tunein.kafka.messages.MyCustomProtobufDeserializer`
 
 [located here](./src/main/scala/io/example/conduktor/custom/deserializers/MyCustomProtobufDeserializer.scala)
 
@@ -71,7 +71,7 @@ message Person {
 ```
 
 ## Configurable example
-`io.example.conduktor.custom.deserializers.MyConfigurableDeserializer`
+`tunein.kafka.messages.MyConfigurableDeserializer`
 
 [located here](./src/main/scala/io/example/conduktor/custom/deserializers/MyConfigurableDeserializer.scala)
 

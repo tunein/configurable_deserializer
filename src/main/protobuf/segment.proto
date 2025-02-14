@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package tunein.kafka.messages;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "playlist.proto";
+
+message Segment {
+    int64 schedule_item_id = 1;
+    int64 bitrate = 2;
+    string codec = 3;
+    string content_id = 4;
+    bool is_static = 5;
+    int64 seq_num = 6;
+    google.protobuf.Timestamp inserted_at = 7;
+    google.protobuf.Timestamp start_time = 8;
+    google.protobuf.Duration duration = 9;
+    int64 size = 10;
+    string filename = 11;
+    string s3_path = 12;
+    bool is_ad = 13;
+    // save 14-15 for future common fields since they use fewer bytes. 
+    // optional fields that don't often appear can have higher number ids.
+    optional string metadata = 16;
+    optional int64 ad_start = 17;
+    optional int64 ad_end = 18;
+}
+
+message SegmentList {
+    repeated Segment segments = 1;
+}
+
+message SegmentListWrapper {
+  AnySegmentList segments = 5;
+}
+
+message AnySegmentList {
+  string type_url = 1;
+
+  // Must be a valid serialized protocol buffer of the above specified type.
+  SegmentList value = 2;
+}
+
+message SegmentEvent {
+  // unique identifier for the Event.  Must be unique for the source but
+  // preferably completely unique (eg: uuid4)
+  string id = 1;
+
+  // An optional class for the type of event, potentially for use by
+  // event delivery protocol.  May be empty.
+  string class = 2;
+
+  // Timestamp to associate with the event
+  google.protobuf.Timestamp timestamp = 3;
+
+  // Describe the source of the event, including any return communication
+  // channel - host/port, topic/bucket, etc
+  EventSource source = 4;
+
+  // A protobuf message encoded as Any which contains the details of the 
+  // event. If working with a message for which there is no descriptor, 
+  // message may be encoded as a TypedStruct message encoded as Any.
+  // https://github.com/cncf/udpa/blob/master/udpa/type/v1/typed_struct.proto
+  AnySegment details = 5;
+}
+
+message AnySegment {
+  // A URL/resource name that uniquely identifies the type of the serialized
+  // protocol buffer message. This string must contain at least
+  // one "/" character. The last segment of the URL's path must represent
+  // the fully qualified name of the type (as in
+  // `path/google.protobuf.Duration`). The name should be in a canonical form
+  // (e.g., leading "." is not accepted).
+  //
+  // In practice, teams usually precompile into the binary all types that they
+  // expect it to use in the context of Any. However, for URLs which use the
+  // scheme `http`, `https`, or no scheme, one can optionally set up a type
+  // server that maps type URLs to message definitions as follows:
+  //
+  // * If no scheme is provided, `https` is assumed.
+  // * An HTTP GET on the URL must yield a [google.protobuf.Type][]
+  //   value in binary format, or produce an error.
+  // * Applications are allowed to cache lookup results based on the
+  //   URL, or have them precompiled into a binary to avoid any
+  //   lookup. Therefore, binary compatibility needs to be preserved
+  //   on changes to types. (Use versioned type names to manage
+  //   breaking changes.)
+  //
+  // Note: this functionality is not currently available in the official
+  // protobuf release, and it is not used for type URLs beginning with
+  // type.googleapis.com. As of May 2023, there are no widely used type server
+  // implementations and no plans to implement one.
+  //
+  // Schemes other than `http`, `https` (or the empty scheme) might be
+  // used with implementation specific semantics.
+  //
+  string type_url = 1;
+
+  // Must be a valid serialized protocol buffer of the above specified type.
+  SegmentListWrapper value = 2;
+}

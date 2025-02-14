@@ -1,0 +1,220 @@
+syntax = "proto3";
+
+package tunein.kafka.messages;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+import "playlist.proto";
+
+message ProberEventSilenceAsyncResult {
+  string id = 1;
+  string class = 2;
+  google.protobuf.Timestamp timestamp = 3;
+  EventSource source = 4;
+  AnySilenceAsyncResult details = 5;
+}
+
+message ProberEventProbeAsyncResult {
+    string id = 1;
+    string class = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    EventSource source = 4;
+    AnyProbeAsyncResult details = 5;
+}
+
+message ProberEventErrorResult {
+    string id = 1;
+    string class = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    EventSource source = 4;
+    AnyErrorResult details = 5;
+}
+
+message ProberEventMonitoringTask {
+    string id = 1;
+    string class = 2;
+    google.protobuf.Timestamp timestamp = 3;
+    EventSource source = 4;
+    AnyMonitoringTask details = 5;
+}
+
+message AnySilenceAsyncResult {
+  string type_url = 1;
+  SilenceAsyncResult value = 2;
+}
+
+message AnyProbeAsyncResult {
+  string type_url = 1;
+  ProbeAsyncResult value = 2;
+}
+
+message AnyErrorResult {
+  string type_url = 1;
+  ErrorResult value = 2;
+}
+
+message AnyMonitoringTask {
+  string type_url = 1;
+  MonitoringTask value = 2;
+}
+
+message ProbeAsyncRequest {
+  string url = 1;
+  string taskID = 2;
+  int32 stationID = 3;
+  int32 streamID = 4;
+  string name = 5;
+  string alertLevel = 6;
+  string alertCategory = 7;
+  string probeCadence = 8;
+  string probeAlert = 9;
+  string revivalCadence = 10;
+  string probeQueryString = 11;
+  bool elevatedProbeCadence = 12;
+}
+
+message ProbeAsyncResult {
+  string url = 1;
+  string taskID = 2;
+  int32 stationID = 3;
+  int32 streamID = 4;
+  string name = 5;
+  string monitorType = 6;
+  string alertLevel = 7;
+  string alertCategory = 8;
+  string taskStatus = 9;
+  // probe field is deprecated, will be removed later
+  // probes should be used instead
+  Probe probe = 10;
+  google.protobuf.Timestamp taskStartTime = 11;
+  google.protobuf.Timestamp taskEndTime = 12;
+  repeated Probe probes = 13;
+  repeated string playlistEntriesURLs = 14;
+  string probeCadence = 15;
+  string probeAlert = 16;
+  string revivalCadence = 17;
+  string probeQueryString = 18;
+  bool elevatedProbeCadence = 19;
+}
+
+message Probe {
+  string codec = 1;
+  int32 bitRate = 2;
+  int32 sampleRate = 3;
+  string profile = 4;
+  bool success = 5;
+  string url = 6;
+  string mimeType = 7;
+  int32 errorCode = 8;
+  string errorMessage = 9;
+}
+
+// ProbeResponse message for ProbeUrl method
+message ProbeResponse {
+    repeated Probe probes = 1;
+    string url = 2;
+    repeated string playlistEntriesURLs = 3;
+}
+
+message SilenceRequest {
+  string url = 1;
+  int32  listenDuration = 2;
+  float  minSilenceDuration = 3;
+}
+
+message SilenceResponse {
+  string   url = 1;
+  repeated Silence silence = 2;
+  repeated SilenceResult silences = 3;
+}
+
+message SilenceAsyncRequest {
+  string url = 1;
+  int32  listenDuration = 2;
+  float  minSilenceDuration = 3;
+
+  string taskID = 4;
+  int32 stationID = 5;
+  int32 streamID = 6;
+  string name = 7;
+  string alertLevel = 8;
+  string alertCategory = 9;
+  string probeCadence = 10;
+  string probeAlert = 11;
+  string revivalCadence = 12;
+  string probeQueryString = 13;
+}
+
+message SilenceAsyncResult {
+  string   url = 1;
+  string   taskID = 2;
+  int32   stationID = 3;
+  int32   streamID = 4;
+  // silence is deprecated and will be removed soon
+  // use silences instead
+  repeated Silence silence = 5;
+  int32 listenDuration = 6;
+  string name = 7;
+  string monitorType = 8;
+  string alertLevel = 9;
+  string alertCategory = 10;
+  string taskStatus = 11;
+  google.protobuf.Timestamp taskStartTime = 12;
+  google.protobuf.Timestamp taskEndTime = 13;
+  repeated SilenceResult silences = 14;
+  repeated string playlistEntriesURLs = 15;
+  string probeCadence = 16;
+  string probeAlert = 17;
+  string revivalCadence = 18;
+  string probeQueryString = 19;
+}
+
+message SilenceResult {
+  string url = 1;
+  repeated Silence silence = 2;
+}
+
+message Silence {
+  google.protobuf.Timestamp from = 1;
+  google.protobuf.Timestamp to = 2;
+  float duration = 3;
+}
+
+message ErrorResult {
+  string url = 1;
+  string taskID = 2;
+  int32 stationID = 3;
+  int32 streamID = 4;
+  string name = 5;
+  string monitorType = 6;
+  string alertLevel = 7;
+  string alertCategory = 8;
+  string taskStatus = 9;
+  int32 errorCode = 10;
+  string errorMessage = 11;
+  google.protobuf.Timestamp taskStartTime = 12;
+  google.protobuf.Timestamp taskEndTime = 13;
+  string probeCadence = 14;
+  string probeAlert = 15;
+  string revivalCadence = 16;
+  string probeQueryString = 17;
+}
+
+message MonitoringTask {
+  string type = 1;
+  string id = 2;
+  int32 stationID = 3;
+  string stationName = 4;
+  repeated string stationRegionCodes = 5;
+  int32 streamID = 6;
+  string streamURL = 7;
+  string alertLevel = 8;
+  string alertCategory = 9;
+  int64 createTime = 10;
+  map<string, google.protobuf.Value> parameters = 11;
+  string probeCadence = 12;
+  string probeAlert = 13;
+  string revivalCadence = 14;
+  string probeQueryString = 15;
+  bool elevatedProbeCadence = 16;
+}

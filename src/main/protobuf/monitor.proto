@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package tunein.kafka.messages;
+
+import "google/protobuf/timestamp.proto";
+
+enum EventType {
+    STREAM_HEARTBEAT = 0;
+    STREAM_CONNECTED = 1;
+    STREAM_DISCONNECTED = 2;
+    STREAM_MONITORING_STARTED = 3;
+    STREAM_MONITORING_TERMINATED = 4;
+    STREAM_ERROR = 5;
+    STREAM_CONNECTION_ERROR = 6; 
+    STREAM_ERROR_RECOVERED = 7;
+    STREAM_STOPPED_ERROR = 8;
+}
+
+message ClientSubscription {
+    string clientName = 1;
+    map<string, string> metadata = 2;
+}
+
+message MonitorEvent {
+    EventType eventType = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    string url = 3;
+    uint64 streamHash = 4;
+    repeated ClientSubscription clientSubscriptions = 5;
+}

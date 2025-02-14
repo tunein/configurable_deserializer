@@ -1,4 +1,4 @@
-package io.example.conduktor.custom.deserializers.constant
+package tunein.kafka.messages.constant
 
 import org.apache.kafka.common.serialization.Deserializer
 
