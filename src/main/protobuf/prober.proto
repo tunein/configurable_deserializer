@@ -4,38 +4,15 @@ package tunein.kafka.messages;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
+import "google/protobuf/any.proto";
 import "playlist.proto";
 
-message ProberEventSilenceAsyncResult {
+message ProberEvent {
   string id = 1;
   string class = 2;
   google.protobuf.Timestamp timestamp = 3;
   EventSource source = 4;
-  AnySilenceAsyncResult details = 5;
-}
-
-message ProberEventProbeAsyncResult {
-    string id = 1;
-    string class = 2;
-    google.protobuf.Timestamp timestamp = 3;
-    EventSource source = 4;
-    AnyProbeAsyncResult details = 5;
-}
-
-message ProberEventErrorResult {
-    string id = 1;
-    string class = 2;
-    google.protobuf.Timestamp timestamp = 3;
-    EventSource source = 4;
-    AnyErrorResult details = 5;
-}
-
-message ProberEventMonitoringTask {
-    string id = 1;
-    string class = 2;
-    google.protobuf.Timestamp timestamp = 3;
-    EventSource source = 4;
-    AnyMonitoringTask details = 5;
+  google.protobuf.Any details = 5;
 }
 
 message AnySilenceAsyncResult {
@@ -83,8 +60,6 @@ message ProbeAsyncResult {
   string alertLevel = 7;
   string alertCategory = 8;
   string taskStatus = 9;
-  // probe field is deprecated, will be removed later
-  // probes should be used instead
   Probe probe = 10;
   google.protobuf.Timestamp taskStartTime = 11;
   google.protobuf.Timestamp taskEndTime = 12;
@@ -150,8 +125,6 @@ message SilenceAsyncResult {
   string   taskID = 2;
   int32   stationID = 3;
   int32   streamID = 4;
-  // silence is deprecated and will be removed soon
-  // use silences instead
   repeated Silence silence = 5;
   int32 listenDuration = 6;
   string name = 7;

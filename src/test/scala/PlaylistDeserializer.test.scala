@@ -1,0 +1,20 @@
+package  tunein.kafka.messages
+
+class PlaylistTest extends munit.FunSuite {
+  test("deserialize message") {
+    val des = new PlaylistDeserializer()
+    
+    val message = scalapb.Encoding.fromBase64(scala.collection.immutable.Seq("CiQ1NGMyYjY2Ny1mNTE5LTRkZWYtYThiMS04ZWFhMjFlM2Y1ZTASCW5ld3MtZXNwbhoLCMefsL0GEKn2unkiDAgDEghhcHBlbmRlciqcBgondHlwZS5nb29nbGVhcGlzLmNvbS90dW5laW4uZXZlbnRzLkV2ZW50EvAFCiQ4NGNkMDA3MC0wZGIyLTRmZTEtYjZjNS04NzQzMDE4MjRlNTAiAggDKsMFCjB0eXBlLmdvb2dsZWFwaXMuY29tL3R1bmVpbi5obHNwYi5QbGF5bGlzdEVudHJpZXMSjgUKiwUKBG5ld3MSBGVzcG4aCGFhY19hZHRzIGAo75y3ATD+mwE48Jy3AUD49QFKCwjHn7C9BhCq9rh5UgwIzJ+wvQYQxJzbnwJiLG5ld3MtZXNwbi05MDFhMTQ2YmFjNGFlMDg1NmMzNmMyOWZhMmVmZmUzMi0yapoBczM6Ly90dW5laW4tc3RyZWFtaW5nLWNodW5rcy1kZXZlbG9wbWVudC9iaW5kYXRhLWFzc2V0cy9uZXdzLWVzcG4vbmV3cy1lc3BuLTkwMWExNDZiYWM0YWUwODU2YzM2YzI5ZmEyZWZmZTMyLTIvYWFjX2FkdHMvOTZrL2FhY19hZHRzOTYtMTczOTI2NDA1NS0wLTQ1LmFhY3IMCMadsL0GENfXlLoBeC2CAQgIBRDgwLbYA4gBgLQEkgELCICSuMOY/v///wHwAQH4AQGCAgkI7wEQ1NbEwgKKArcCeyJDT00tVFVORUlOLUFELURFU0MiOnsiYWNjX2R1ciI6Mjc1NTQwfSwiYWRfZXZlbnQiOiJjdWVpbiIsImNvbnRlbnRfY2F0IjoiY29udGVudDEiLCJwcm9nLWR1ciI6MzM5Mzc4MzExMzQzMDk5MiwicHJvZy1zdGFydCI6IlwiMjAyNS0wMS0wM1QyMDoyNTo1NC44MDQ3MDEyMTlaXCIiLCJyZXBsYWNlZF9yZWMiOiI3OGM0YTI4NTMwNDM0MWZhYWNkNWJjYmNmYWMxMTM5ZSIsInJlcGxhY2VkX3NlcSI6NDMyNCwic291cmNlIjoiaHR0cHM6Ly90aS5yYWRpby1wcm9kLnNwb3J0c3JhZGlvY2VudGVyLmNvbS9FU1BOLzEyOGsvcHJvZ3JhbS5tM3U4In0=").mkString)
+    val result = des.deserialize("playlist-musicfree", message)
+    assert(result.details.get.value.get.playlists.get.typeUrl == "type.googleapis.com/tunein.hlspb.PlaylistEntries")
+    assert(result.details.get.value.get.playlists.get.value.get.playlists(0).broadcast == "espn")
+    assert(result.details.get.value.get.playlists.get.value.get.playlists(0).broadcastGroup == "news")
+
+    val message2 = scalapb.Encoding.fromBase64(scala.collection.immutable.Seq("CiRiYjFhYzAzNy1kNzgxLTQyYzQtYjNlMC05YzRmZjI5ODdhYjESE211c2ljZnJlZS1jbGFzc2ljYWwaDAjdnPXABhDb/Nv+AiIMCAMSCGFwcGVuZGVyKtEECid0eXBlLmdvb2dsZWFwaXMuY29tL3R1bmVpbi5ldmVudHMuRXZlbnQSpQQKJGMwNGM5Y2VkLWUzNGEtNDcyNy04MTJlLTBhNmIxOTIzYzVmYSICCAMq+AMKMHR5cGUuZ29vZ2xlYXBpcy5jb20vdHVuZWluLmhsc3BiLlBsYXlsaXN0RW50cmllcxLDAwrAAwoJbXVzaWNmcmVlEgljbGFzc2ljYWwaCGFhY19hZHRzIGAomuAlMLl2OI/gJUDsBUoMCN2c9cAGEPDb2f4CUgwI45z1wAYQ69S6hwFaIGUzZDI1MWE2OTVlMDQ4NzQ4OGY0NTYyZmU1OTJhM2Mwap0BczM6Ly90dW5laW4tc3RyZWFtaW5nLWNodW5rcy1kZXZlbG9wbWVudC9saXZlL211c2ljZnJlZS9jbGFzc2ljYWwvMTUxNjEvZTNkMjUxYTY5NWUwNDg3NDg4ZjQ1NjJmZTU5MmEzYzAvYWFjX2FkdHMvOTZrL3ByaS1hYWNfYWR0czk2LTE3NDY3NTEwNDYtNTk5MC0yNDk3LmFhY3ILCMac9cAGEJXy0Gt4wROCAQgIBRCcwLbYA4gB17IEkgELCNKc9cAGENCEoSmCAgCKAn57InByb2ctZHVyIjoyMDI2MzQ3NTYyMzgzNiwicHJvZy1zdGFydCI6IlwiMjAyNS0wNS0wOFQxODo1OTo1Ny44OTY4Njk2NjZaXCIiLCJzb3VyY2UiOiJodHRwczovL3d3Zm0uc3RyZWFtZ3V5czEuY29tL2xpdmUtbXAzIn0=").mkString)
+    val result2 = des.deserialize("playlist-musicfree", message2)
+    assert(result2.details.get.value.get.playlists.get.typeUrl == "type.googleapis.com/tunein.hlspb.PlaylistEntries")
+    assert(result2.details.get.value.get.playlists.get.value.get.playlists(0).broadcast == "classical")
+    assert(result2.details.get.value.get.playlists.get.value.get.playlists(0).broadcastGroup == "musicfree")
+    assert(result2.details.get.value.get.playlists.get.value.get.playlists(0).segUri == "s3://tunein-streaming-chunks-development/live/musicfree/classical/15161/e3d251a695e0487488f4562fe592a3c0/aac_adts/96k/pri-aac_adts96-1746751046-5990-2497.aac")
+  }
+}

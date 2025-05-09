@@ -3,14 +3,15 @@ import sbtassembly.AssemblyPlugin.autoImport.*
 
 
 name                                     := "configurable_deserializer"
-version                                  := sys.env.getOrElse("CREATED_TAG", "0.1")
+version                                  := sys.env.getOrElse("CREATED_TAG", "0.4")
 scalaVersion                             := "2.13.16"
 libraryDependencies += "org.apache.kafka" % "kafka-clients" % "3.4.0"
 libraryDependencies ++= Seq(
   "com.thesamet.scalapb"               %% "scalapb-runtime"                         % scalapb.compiler.Version.scalapbVersion % "protobuf",
   "com.thesamet.scalapb.common-protos" %% "proto-google-common-protos-scalapb_0.11" % "2.9.6-0"                               % "protobuf",
   "com.thesamet.scalapb.common-protos" %% "proto-google-common-protos-scalapb_0.11" % "2.9.6-0",
-  "com.fasterxml.jackson.core"         % "jackson-databind"       % "2.14.3"
+  "com.fasterxml.jackson.core"         % "jackson-databind"       % "2.14.3",
+  "org.scala-lang"                     %% "toolkit-test"          % "0.7.0"         % Test
 
 )
 
