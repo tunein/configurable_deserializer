@@ -3,7 +3,7 @@ import sbtassembly.AssemblyPlugin.autoImport.*
 
 
 name                                     := "configurable_deserializer"
-version                                  := sys.env.getOrElse("CREATED_TAG", "0.4")
+version                                  := sys.env.getOrElse("CREATED_TAG", "0.5")
 scalaVersion                             := "2.13.16"
 libraryDependencies += "org.apache.kafka" % "kafka-clients" % "3.4.0"
 libraryDependencies ++= Seq(
@@ -19,7 +19,7 @@ Compile / tpolecatExcludeOptions ++= Set(
   ScalacOptions.warnNonUnitStatement, // for scalaPB gen sources
 )
 
-assembly / assemblyJarName := "plugins.jar"
+assembly / assemblyJarName := "configurable_deserializer.jar"
 
 // ## Github Packages publish configs
 // More info, see: https://gist.github.com/guizmaii/2ca47b74ad8e26c772d7df6ada8ddb00
@@ -43,5 +43,6 @@ ThisBuild / credentials += Credentials(
 
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", "versions", "9", "module-info.class") => MergeStrategy.first
+  case PathList("com", "google", "type", xs @ _*) => MergeStrategy.first
   case x => (assembly / assemblyMergeStrategy).value(x)
 }

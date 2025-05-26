@@ -118,7 +118,7 @@ The Deserializer will always return String value like
 ### Build and copy jar to pod
 
 Build jar:
-`sbt package`
+`sbt assembly`
 
 Copy:
-`kubedev cp ./target/scala-2.13/configurable_deserializer_2.13-0.3.jar <pod_name>:/opt/conduktor/plugins/configurable_deserializer_2.13-0.3.jar -n conduktor`
+`kubedev cp ./target/scala-2.13/configurable_deserializer.jar <pod_name>:/opt/conduktor/plugins/configurable_deserializer_0.5.jar -n conduktor`
