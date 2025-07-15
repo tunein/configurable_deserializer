@@ -3,7 +3,7 @@ import sbtassembly.AssemblyPlugin.autoImport.*
 
 
 name                                     := "configurable_deserializer"
-version                                  := sys.env.getOrElse("CREATED_TAG", "0.5")
+version                                  := sys.env.getOrElse("CREATED_TAG", "0.6")
 scalaVersion                             := "2.13.16"
 libraryDependencies += "org.apache.kafka" % "kafka-clients" % "3.4.0"
 libraryDependencies ++= Seq(
