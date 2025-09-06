@@ -30,5 +30,7 @@ message AdEvent {
   optional google.protobuf.Duration AdFillDuration = 13;
   optional int32 AdFillOrder = 14;
   optional string StationID = 15;
+  optional string AdMarkerID = 16;
+  optional int64  AdMarkerTimestamp = 17;
 }
 
